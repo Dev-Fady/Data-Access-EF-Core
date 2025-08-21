@@ -1,0 +1,27 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Start_EF_Core
+{
+    internal class AppDBContext : DbContext
+    {
+        public DbSet<Wallet> wallets { get; set; } = null!;
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+            var configuration = new ConfigurationBuilder()
+              .AddJsonFile("appsettings.json")
+              .Build();
+
+            string connectionString = configuration.GetSection("constr").Value;
+
+            optionsBuilder.UseSqlServer(connectionString);
+        }
+    }
+}
