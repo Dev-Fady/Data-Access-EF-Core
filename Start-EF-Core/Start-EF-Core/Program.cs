@@ -10,8 +10,8 @@ namespace Start_EF_Core
             using (var context=new AppDBContext())
             {
                 #region  Retrieve Single Data
-                //var itemIdRetrieve = context.wallets.FirstOrDefault(c => c.Id == 2);
-                //Console.WriteLine(itemIdRetrieve);
+                var itemIdRetrieve = context.wallets.FirstOrDefault(c => c.Id == 2);
+                Console.WriteLine(itemIdRetrieve);
                 #endregion
                 #region Insert Data
                 //var walletInsert = new Wallet
@@ -24,9 +24,10 @@ namespace Start_EF_Core
                 #endregion
 
                 #region Update Data
-                //var wallets = context.wallets.Single(x => x.Id == 2);
-                //wallets.Holder = "RoRo";
-                //context.SaveChanges();
+                var wallets = context.wallets.Single(x => x.Id == 20);
+                wallets.Holder = "RoRo";
+                wallets.Balance = 1540;
+                context.SaveChanges();
                 #endregion
                 #region Delete Data
                 //var wallets=context.wallets.Where(x=>x.Id==12).ExecuteDelete();
@@ -50,7 +51,7 @@ namespace Start_EF_Core
                 //    var toWallet = context.wallets.SingleOrDefault(x => x.Id == 3 );
 
                 //    var amountToTransfer = 500m;
-                    
+
                 //    fromWallet!.Balance -= amountToTransfer;
                 //    toWallet!.Balance += amountToTransfer;
 

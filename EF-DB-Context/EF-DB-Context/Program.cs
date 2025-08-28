@@ -11,7 +11,7 @@ namespace EF_DB_Context
    
     internal class Program
     { 
-        //static AppDBContext context;
+        static AppDBContext context;
         static async Task Main(string[] args)
         {
             #region DBContext External Configuration
@@ -51,7 +51,7 @@ namespace EF_DB_Context
 
             //IServiceProvider serviceProvider = services.BuildServiceProvider();
 
-            //using (var context =serviceProvider.GetService<AppDBContext>())
+            //using (var context = serviceProvider.GetService<AppDBContext>())
             //{
             //    foreach (var item in context!.wallets)
             //    {
@@ -100,7 +100,7 @@ namespace EF_DB_Context
 
             //IServiceProvider serviceProvider = services.BuildServiceProvider();
 
-            //context=serviceProvider.GetRequiredService<AppDBContext>();
+            //context = serviceProvider.GetRequiredService<AppDBContext>();
 
             //var tasks = new[]
             //{
@@ -112,9 +112,9 @@ namespace EF_DB_Context
             //    Console.WriteLine("Jop1 & jop2 execute Concurrently");
             //});
 
-            //using (var test= serviceProvider.GetService<AppDBContext>())
+            //using (var test = serviceProvider.GetService<AppDBContext>())
             //{
-            //     foreach (var item in test!.wallets)
+            //    foreach (var item in test!.wallets)
             //    {
             //        Console.WriteLine(item);
             //    }
@@ -122,49 +122,49 @@ namespace EF_DB_Context
             #endregion
 
             #region DBContext Pooling
-            //var configuration = new ConfigurationBuilder()
-            // .AddJsonFile("appsettings.json")
-            // .Build();
+            var configuration = new ConfigurationBuilder()
+             .AddJsonFile("appsettings.json")
+             .Build();
 
-            //string connectionString = configuration.GetSection("constr").Value!;
+            string connectionString = configuration.GetSection("constr").Value!;
 
-            //var services = new ServiceCollection();
+            var services = new ServiceCollection();
 
-            //services.AddDbContextPool<AppDBContext>(
-            //    options => options.UseSqlServer(connectionString)
-            //    );
+            services.AddDbContextPool<AppDBContext>(
+                options => options.UseSqlServer(connectionString)
+                );
 
-            //IServiceProvider serviceProvider = services.BuildServiceProvider();
+            IServiceProvider serviceProvider = services.BuildServiceProvider();
 
-            //using (var context = serviceProvider.GetService<AppDBContext>())
-            //{
-            //    foreach (var item in context!.wallets)
-            //    {
-            //        Console.WriteLine(item);
-            //    }
-            //}
+            using (var context = serviceProvider.GetService<AppDBContext>())
+            {
+                foreach (var item in context!.wallets)
+                {
+                    Console.WriteLine(item);
+                }
+            }
             #endregion
 
         }
-        //static async Task Job1()
-        //{
-        //    var w1 = new Wallet
-        //    {
-        //        Holder = "NaNa",
-        //        Balance = 900
-        //    };
-        //    context.wallets.Add(w1);
-        //    await context.SaveChangesAsync();
-        //}
-        //static async Task Job2() 
-        //{
-        //    var w2 = new Wallet
-        //    {
-        //        Holder = "SoSo",
-        //        Balance = 1999
-        //    };
-        //    context.wallets.Add(w2);
-        //    await context.SaveChangesAsync();
-        //}
+        static async Task Job1()
+        {
+            var w1 = new Wallet
+            {
+                Holder = "NaNa",
+                Balance = 900
+            };
+            context.wallets.Add(w1);
+            await context.SaveChangesAsync();
+        }
+        static async Task Job2()
+        {
+            var w2 = new Wallet
+            {
+                Holder = "SoSo",
+                Balance = 1999
+            };
+            context.wallets.Add(w2);
+            await context.SaveChangesAsync();
+        }
     }
 }
